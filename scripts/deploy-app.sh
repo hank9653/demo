@@ -54,8 +54,11 @@ function ecs_register_task_definition() {
     outputs=$(aws ecs register-task-definition \
         --family ${TASK_FAMILY} \
         --requires-compatibilities FARGATE \
+        --network-mode awsvpc \
         --task-role-arn $TASK_EXEC_ROLE_ARN \
         --execution-role-arn $TASK_EXEC_ROLE_ARN \
+        --cpu ${TASK_CPU} \
+        --memory ${TASK_MEMORY} \
         --container-definitions "${CONTAINER_DEFINITIONS}" )
     echo $( echo $outputs | jq -r '.taskDefinition|"Registered taskdefinition : "+.family+":"+(.revision|tostring)' )
 }
@@ -83,9 +86,9 @@ function ecs_wait_services_stable() {
 
 # Main
 function main() {
-    install_tools
-    ecr_login
-    docker_build_tag_push
+    # install_tools
+    # ecr_login
+    # docker_build_tag_push
     replace_var_in_taskdefinition
     ecs_register_task_definition
     ecs_update_service
