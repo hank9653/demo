@@ -86,9 +86,9 @@ function ecs_wait_services_stable() {
 
 # Main
 function main() {
-    # install_tools
-    # ecr_login
-    # docker_build_tag_push
+    install_tools
+    ecr_login
+    docker_build_tag_push
     replace_var_in_taskdefinition
     ecs_register_task_definition
     ecs_update_service
